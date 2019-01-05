@@ -57,6 +57,13 @@ class UserInfoController extends ResourceController implements UserInfoControlle
         $claims += array(
             'sub' => $token['user_id'],
         );
+
+        // WealthPlan, add drupal user roles to UserInfo request
+        $account = user_load($token['user_id']);
+        $claims['userRoles'] = $account->roles;
+        $claims['name'] = $account->name;
+        // WealthPlan
+
         $response->addParameters($claims);
     }
 }

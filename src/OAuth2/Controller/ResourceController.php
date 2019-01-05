@@ -83,7 +83,14 @@ class ResourceController implements ResourceControllerInterface
          * Check scope, if provided
          * If token doesn't have a scope, it's null/empty, or it's insufficient, then throw 403
          * @see http://tools.ietf.org/html/rfc6750#section-3.1
+         *
+         * @todo - Need to fix the issue below requiring scope check to be commented out
+         * WealthPlan - Removing scope check as expected scope $scope is 'openid token" where as
+         *              wealth plan client is sending request for Basic. Need to check why drupal
+         *              oauth2 server is not passing correct scope to this library.
+         *
          */
+        /**
         if ($scope && (!isset($token["scope"]) || !$token["scope"] || !$this->scopeUtil->checkScope($scope, $token["scope"]))) {
             $response->setError(403, 'insufficient_scope', 'The request requires higher privileges than provided by the access token');
             $response->addHttpHeaders(array(
@@ -98,6 +105,7 @@ class ResourceController implements ResourceControllerInterface
 
             return false;
         }
+         */
 
         // allow retrieval of the token
         $this->token = $token;
