@@ -10,6 +10,7 @@ use OAuth2\Controller\ResourceController;
 use OAuth2\ScopeInterface;
 use OAuth2\RequestInterface;
 use OAuth2\ResponseInterface;
+use CL_ClientPC;
 
 /**
  * @see OAuth2\Controller\UserInfoControllerInterface
@@ -50,6 +51,8 @@ class UserInfoController extends ResourceController implements UserInfoControlle
             return;
         }
 
+        include_once('sites/all/modules/core_framework/includes/CL_ClientPC.inc');
+
         $token = $this->getToken();
         $claims = $this->userClaimsStorage->getUserClaims($token['user_id'], $token['scope']);
         // The sub Claim MUST always be returned in the UserInfo Response.
@@ -62,6 +65,7 @@ class UserInfoController extends ResourceController implements UserInfoControlle
         $account = user_load($token['user_id']);
         $claims['userRoles'] = $account->roles;
         $claims['name'] = $account->name;
+        $claims['csub'] = CL_ClientPC::clarityIDFromDrupalAccount($token['user_id']);
         // WealthPlan
 
         $response->addParameters($claims);
