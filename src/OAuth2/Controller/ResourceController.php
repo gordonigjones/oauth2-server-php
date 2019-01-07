@@ -90,7 +90,6 @@ class ResourceController implements ResourceControllerInterface
          *              oauth2 server is not passing correct scope to this library.
          *
          */
-        /**
         if ($scope && (!isset($token["scope"]) || !$token["scope"] || !$this->scopeUtil->checkScope($scope, $token["scope"]))) {
             $response->setError(403, 'insufficient_scope', 'The request requires higher privileges than provided by the access token');
             $response->addHttpHeaders(array(
@@ -105,7 +104,6 @@ class ResourceController implements ResourceControllerInterface
 
             return false;
         }
-         */
 
         // allow retrieval of the token
         $this->token = $token;
