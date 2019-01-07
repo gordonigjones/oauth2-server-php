@@ -50,9 +50,6 @@ class UserInfoController extends ResourceController implements UserInfoControlle
         if (!$this->verifyResourceRequest($request, $response, 'openid')) {
             return;
         }
-
-        include_once('sites/all/modules/core_framework/includes/CL_ClientPC.inc');
-
         $token = $this->getToken();
         $claims = $this->userClaimsStorage->getUserClaims($token['user_id'], $token['scope']);
         // The sub Claim MUST always be returned in the UserInfo Response.
@@ -60,13 +57,6 @@ class UserInfoController extends ResourceController implements UserInfoControlle
         $claims += array(
             'sub' => $token['user_id'],
         );
-
-        // WealthPlan, add drupal user roles to UserInfo request
-        $account = user_load($token['user_id']);
-        $claims['userRoles'] = $account->roles;
-        $claims['name'] = $account->name;
-        $claims['csub'] = CL_ClientPC::clarityIDFromDrupalAccount($token['user_id']);
-        // WealthPlan
 
         $response->addParameters($claims);
     }
